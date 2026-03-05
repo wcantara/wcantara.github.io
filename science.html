@@ -133,7 +133,29 @@
     .btn-ghost { border: 1px solid var(--border); color: var(--muted); }
     .btn-ghost:hover { border-color: rgba(77,171,247,0.3); color: var(--accent); }
 
-    /* COMING SOON */
+    /* SCHOLAR BANNER */
+    .scholar-banner {
+      border: 1px solid var(--border);
+      border-radius: 10px; padding: 32px 40px;
+      margin-bottom: 24px;
+      background: linear-gradient(135deg, rgba(77,171,247,0.05) 0%, rgba(77,171,247,0.02) 100%);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+      transition: border-color 0.25s;
+    }
+    .scholar-banner:hover { border-color: rgba(77,171,247,0.3); }
+    .scholar-banner-text {}
+    .scholar-banner-text p {
+      font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .scholar-banner-text h3 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 20px; font-weight: 700; margin-bottom: 8px; color: var(--text);
+    }
+    .scholar-banner-text span {
+      font-size: 12px; color: var(--muted); line-height: 1.8;
+    }
     .coming-soon {
       border: 1px dashed rgba(77,171,247,0.15);
       border-radius: 10px; padding: 36px 40px;
@@ -204,8 +226,18 @@
     <div class="card-actions">
       <span class="btn btn-primary" style="opacity:0.45;cursor:default;">Coming Soon</span>
       <a href="https://rnajournal.cshlp.org/content/23/2/240.short" target="_blank" class="btn btn-ghost">Read the Paper</a>
-      <a href="https://scholar.google.com/citations?user=eL5BoUkAAAAJ&hl=en" target="_blank" class="btn btn-ghost">Google Scholar</a>
     </div>
+  </div>
+
+  <div class="scholar-banner">
+    <div class="scholar-banner-text">
+      <p>// Publications</p>
+      <h3>Explore the full body of work</h3>
+      <span>Beyond the tools hosted here, my published research spans RNA structure,<br/>chemical probing, and nucleic acid biology.</span>
+    </div>
+    <a href="https://scholar.google.com/citations?user=eL5BoUkAAAAJ&hl=en" target="_blank" class="btn btn-ghost" style="white-space:nowrap; flex-shrink:0;">
+      View on Google Scholar →
+    </a>
   </div>
 
   <div class="coming-soon">
