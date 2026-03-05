@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Science & Science Tools — Ribozyme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #080e1a;
+      --bg2: #0e1625;
+      --bg3: #141e30;
+      --border: rgba(77,171,247,0.1);
+      --text: #dde6f0;
+      --muted: #5d7a99;
+      --accent: #4dabf7;
+      --accent2: #74c0fc;
+      --highlight: rgba(77,171,247,0.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(8,14,26,0.92); backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px;
+    }
+    .nav-brand {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 18px; color: var(--accent); text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-links a {
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.04); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* HEADER */
+    .page-header {
+      padding: 120px 40px 60px;
+      max-width: 900px; margin: 0 auto;
+      border-bottom: 1px solid var(--border);
+      animation: fadeIn 0.6s ease both;
+    }
+    .page-tag {
+      font-size: 10px; letter-spacing: 0.2em; color: var(--accent);
+      text-transform: uppercase; margin-bottom: 20px;
+    }
+    .page-header h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(32px, 5vw, 54px); font-weight: 700;
+      line-height: 1.15; margin-bottom: 20px;
+    }
+    .page-header p {
+      font-size: 13px; color: var(--muted); line-height: 1.9; max-width: 620px;
+    }
+
+    /* CONTENT */
+    .content { max-width: 900px; margin: 0 auto; padding: 60px 40px 100px; }
+
+    .project-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 40px;
+      margin-bottom: 24px;
+      transition: border-color 0.25s, box-shadow 0.25s;
+      animation: fadeIn 0.6s ease both;
+    }
+    .project-card:hover {
+      border-color: rgba(77,171,247,0.3);
+      box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+    }
+    .project-meta {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .badge {
+      font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 4px; font-weight: 500;
+    }
+    .badge-live { background: rgba(77,171,247,0.12); color: var(--accent); border: 1px solid rgba(77,171,247,0.2); }
+    .badge-python { background: rgba(255,212,59,0.08); color: #ffd43b; border: 1px solid rgba(255,212,59,0.15); }
+    .badge-paper { background: rgba(163,230,53,0.08); color: #a3e635; border: 1px solid rgba(163,230,53,0.15); }
+    .badge-wip { background: rgba(251,146,60,0.08); color: #fb923c; border: 1px solid rgba(251,146,60,0.15); }
+
+    .project-card h2 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: 26px; margin-bottom: 12px;
+    }
+    .project-card .desc {
+      font-size: 12px; color: var(--muted); line-height: 1.9; margin-bottom: 24px;
+    }
+    .feature-list {
+      list-style: none; margin-bottom: 28px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px;
+    }
+    .feature-list li {
+      font-size: 11px; color: var(--muted); line-height: 1.6;
+      padding-left: 18px; position: relative;
+    }
+    .feature-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); }
+
+    .citation-box {
+      background: var(--bg3); border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0; padding: 16px 20px; margin-bottom: 24px;
+    }
+    .citation-box p { font-size: 11px; color: var(--muted); line-height: 1.8; font-style: italic; }
+    .citation-box a { color: var(--accent); text-decoration: none; }
+    .citation-box a:hover { text-decoration: underline; }
+
+    .card-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 10px 22px; border-radius: 5px; text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost { border: 1px solid var(--border); color: var(--muted); }
+    .btn-ghost:hover { border-color: rgba(77,171,247,0.3); color: var(--accent); }
+
+    /* COMING SOON */
+    .coming-soon {
+      border: 1px dashed rgba(77,171,247,0.15);
+      border-radius: 10px; padding: 36px 40px;
+      display: flex; align-items: center; gap: 20px;
+      color: var(--muted); margin-bottom: 24px;
+    }
+    .coming-soon-icon { font-size: 28px; opacity: 0.5; }
+    .coming-soon h3 { font-size: 16px; font-family: 'Libre Baskerville', serif; margin-bottom: 6px; color: var(--text); opacity: 0.5; }
+    .coming-soon p { font-size: 11px; line-height: 1.7; opacity: 0.6; }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    footer p { font-size: 11px; color: var(--muted); }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .page-header, .content { padding-left: 24px; padding-right: 24px; }
+      .project-card { padding: 28px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Ribozyme</a>
+  <div class="nav-links">
+    <a href="science.html" class="active">Science</a>
+    <a href="games.html">Games</a>
+    <a href="utilities.html">Utilities</a>
+    <a href="learning.html">Learning</a>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="page-tag">// Science &amp; Science Tools</div>
+  <h1>Research tools built<br/>by a researcher.</h1>
+  <p>Software born out of real scientific needs — with an emphasis on transparency, reproducibility, and accessibility for labs without dedicated bioinformatics support.</p>
+</div>
+
+<div class="content">
+
+  <div class="project-card">
+    <div class="project-meta">
+      <span class="badge badge-live">Published</span>
+      <span class="badge badge-python">Python</span>
+      <span class="badge badge-paper">RNA Journal 2017</span>
+    </div>
+    <h2>RiboCAT</h2>
+    <p class="desc">
+      RiboCAT (Ribonucleotide Chemical probing Analysis Tool) is a tool for analyzing capillary electrophoresis data from SHAPE (Selective 2′-Hydroxyl Acylation analyzed by Primer Extension) experiments. Originally developed as an Excel/VBA solution, the modernized Python version offers improved cross-platform compatibility, better signal alignment algorithms, and reduced manual intervention — while preserving the data transparency that researchers depend on.
+    </p>
+    <ul class="feature-list">
+      <li>Processes FSA capillary electrophoresis files</li>
+      <li>Automated peak detection and alignment</li>
+      <li>SHAPE reactivity normalization</li>
+      <li>Cross-platform (Windows, Mac, Linux)</li>
+      <li>Streamlit-based interactive interface</li>
+      <li>Open source and freely available</li>
+    </ul>
+    <div class="citation-box">
+      <p>Cantara, W.A. et al. (2017). RiboCAT: A new capillary electrophoresis data analysis tool for nucleic acid probing. <em>RNA</em>. doi: <a href="https://doi.org/10.1261/rna.059345.116" target="_blank">10.1261/rna.059345.116</a></p>
+    </div>
+    <div class="card-actions">
+      <a href="https://github.com/wcantara/ribocat" target="_blank" class="btn btn-primary">View on GitHub</a>
+      <a href="https://doi.org/10.1261/rna.059345.116" target="_blank" class="btn btn-ghost">Read the Paper</a>
+    </div>
+  </div>
+
+  <div class="coming-soon">
+    <div class="coming-soon-icon">🧬</div>
+    <div>
+      <h3>More tools coming soon</h3>
+      <p>Additional RNA analysis and bioinformatics utilities are in development. Check back or follow on GitHub for updates.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 Ribozyme &nbsp;·&nbsp; <a href="https://github.com/wcantara" target="_blank">github.com/wcantara</a></p>
+  <p><a href="https://ko-fi.com/ribozyme" target="_blank">Support on Ko-fi ☕</a></p>
+</footer>
+
+</body>
+</html>

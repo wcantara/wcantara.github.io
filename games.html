@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Games & Gamer Tools — Ribozyme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #050508;
+      --bg2: #0a0a10;
+      --bg3: #0f0f18;
+      --neon-green: #39ff14;
+      --neon-pink: #ff2d55;
+      --neon-blue: #00f0ff;
+      --neon-yellow: #ffe600;
+      --muted: #44445a;
+      --text: #c8c8e0;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Share Tech Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+      cursor: crosshair;
+    }
+
+    /* CRT overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,0,0,0.08) 2px, rgba(0,0,0,0.08) 4px
+      );
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 9998;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5) 100%);
+    }
+
+    /* SCANLINE ANIMATION */
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    .scanline {
+      position: fixed; left: 0; right: 0; height: 4px; z-index: 9998;
+      background: rgba(57,255,20,0.04);
+      pointer-events: none;
+      animation: scanline 6s linear infinite;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: rgba(5,5,8,0.95);
+      border-bottom: 2px solid var(--neon-green);
+      box-shadow: 0 0 20px rgba(57,255,20,0.15);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; height: 58px;
+    }
+    .nav-brand {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px; color: var(--neon-green);
+      text-decoration: none;
+      text-shadow: 0 0 12px var(--neon-green);
+    }
+    .nav-links { display: flex; gap: 4px; }
+    .nav-links a {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px; letter-spacing: 0.05em;
+      color: var(--muted); text-decoration: none;
+      padding: 8px 12px; border: 1px solid transparent;
+      transition: all 0.15s;
+    }
+    .nav-links a:hover { color: var(--neon-green); border-color: var(--neon-green); text-shadow: 0 0 8px var(--neon-green); }
+    .nav-links a.active { color: var(--neon-green); border-color: var(--neon-green); text-shadow: 0 0 8px var(--neon-green); }
+
+    /* HERO */
+    .hero {
+      padding: 100px 40px 60px;
+      text-align: center;
+      position: relative;
+    }
+    .hero-pre {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 9px; color: var(--neon-green);
+      letter-spacing: 0.15em; margin-bottom: 28px;
+      animation: blink 1.2s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    .hero h1 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: clamp(18px, 4vw, 36px);
+      line-height: 1.6;
+      color: #fff;
+      text-shadow: 0 0 30px var(--neon-pink), 0 0 60px rgba(255,45,85,0.3);
+      margin-bottom: 24px;
+      animation: glitch 4s infinite;
+    }
+    @keyframes glitch {
+      0%,95%,100% { text-shadow: 0 0 30px var(--neon-pink), 0 0 60px rgba(255,45,85,0.3); transform: none; }
+      96% { text-shadow: -3px 0 var(--neon-blue), 3px 0 var(--neon-pink); transform: skewX(-1deg); }
+      97% { text-shadow: 3px 0 var(--neon-blue), -3px 0 var(--neon-pink); transform: skewX(1deg); }
+      98% { text-shadow: 0 0 30px var(--neon-pink); transform: none; }
+    }
+    .hero-sub {
+      font-size: 12px; color: var(--muted); line-height: 1.9; max-width: 520px; margin: 0 auto;
+    }
+
+    /* DIVIDER */
+    .pixel-divider {
+      text-align: center; margin: 48px 0 40px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px; color: var(--muted); letter-spacing: 0.2em;
+    }
+
+    /* CARDS */
+    .cards-grid {
+      max-width: 1000px; margin: 0 auto;
+      padding: 0 40px 100px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .game-card {
+      background: var(--bg2);
+      border: 2px solid var(--muted);
+      padding: 32px 28px;
+      position: relative; overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      text-decoration: none; color: var(--text);
+      display: block;
+    }
+    .game-card::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 8px,
+        rgba(255,255,255,0.01) 8px, rgba(255,255,255,0.01) 9px
+      );
+      pointer-events: none;
+    }
+    .game-card:hover { border-color: var(--c,var(--neon-green)); box-shadow: 0 0 30px rgba(57,255,20,0.12), inset 0 0 30px rgba(57,255,20,0.03); }
+    .game-card.pink:hover { box-shadow: 0 0 30px rgba(255,45,85,0.15), inset 0 0 30px rgba(255,45,85,0.03); }
+    .game-card.blue:hover { box-shadow: 0 0 30px rgba(0,240,255,0.12), inset 0 0 30px rgba(0,240,255,0.03); }
+
+    .game-card.pink { --c: var(--neon-pink); }
+    .game-card.blue { --c: var(--neon-blue); }
+    .game-card.yellow { --c: var(--neon-yellow); }
+
+    .card-corner {
+      position: absolute; top: 0; right: 0;
+      border-left: 28px solid transparent;
+      border-top: 28px solid var(--c, var(--neon-green));
+      opacity: 0.5;
+    }
+
+    .card-status {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 7px; letter-spacing: 0.1em;
+      color: var(--c, var(--neon-green));
+      text-shadow: 0 0 8px var(--c, var(--neon-green));
+      margin-bottom: 16px;
+    }
+    .game-card h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 14px; line-height: 1.6;
+      color: #fff; margin-bottom: 16px;
+      text-shadow: 0 0 12px rgba(255,255,255,0.2);
+    }
+    .game-card .desc {
+      font-size: 12px; color: var(--muted); line-height: 1.8; margin-bottom: 24px;
+    }
+    .card-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+    .tag {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 6px; padding: 5px 9px;
+      border: 1px solid var(--muted); color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .card-link {
+      display: inline-block;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 8px; letter-spacing: 0.05em;
+      color: var(--c, var(--neon-green));
+      text-decoration: none;
+      border: 1px solid var(--c, var(--neon-green));
+      padding: 10px 16px;
+      text-shadow: 0 0 8px var(--c, var(--neon-green));
+      box-shadow: 0 0 12px rgba(57,255,20,0.1);
+      transition: background 0.15s;
+    }
+    .game-card.pink .card-link { box-shadow: 0 0 12px rgba(255,45,85,0.1); }
+    .game-card.blue .card-link { box-shadow: 0 0 12px rgba(0,240,255,0.1); }
+    .card-link:hover { background: rgba(255,255,255,0.05); }
+
+    /* WIP card */
+    .wip-card {
+      border: 2px dashed var(--muted);
+      padding: 32px 28px; opacity: 0.5;
+    }
+    .wip-card h2 {
+      font-family: 'Press Start 2P', monospace;
+      font-size: 12px; color: var(--muted); margin-bottom: 12px; line-height: 1.6;
+    }
+    .wip-card p { font-size: 11px; color: var(--muted); line-height: 1.8; }
+
+    footer {
+      border-top: 2px solid rgba(57,255,20,0.2);
+      padding: 28px 40px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+      font-family: 'Press Start 2P', monospace; font-size: 7px;
+    }
+    footer p { color: var(--muted); }
+    footer a { color: var(--neon-green); text-decoration: none; text-shadow: 0 0 8px var(--neon-green); }
+
+    @media (max-width: 600px) {
+      nav { padding: 0 16px; }
+      .nav-links a { font-size: 6px; padding: 6px 8px; }
+      .hero { padding: 90px 24px 40px; }
+      .cards-grid { padding: 0 24px 80px; }
+    }
+  </style>
+</head>
+<body>
+<div class="scanline"></div>
+
+<nav>
+  <a href="index.html" class="nav-brand">RIBOZYME</a>
+  <div class="nav-links">
+    <a href="science.html">SCI</a>
+    <a href="games.html" class="active">GAMES</a>
+    <a href="utilities.html">UTILS</a>
+    <a href="learning.html">LEARN</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-pre">▶ INSERT COIN TO CONTINUE ◀</div>
+  <h1>GAMES &amp;<br/>GAMER TOOLS</h1>
+  <p class="hero-sub">Browser games, randomizer trackers, and tools for the classic gaming community. All free. All open source.</p>
+</section>
+
+<div class="pixel-divider">— ✦ SELECT YOUR GAME ✦ —</div>
+
+<div class="cards-grid">
+
+  <div class="game-card pink">
+    <div class="card-corner"></div>
+    <div class="card-status">■ PLAYABLE</div>
+    <h2>NUMBER<br/>BREAKER</h2>
+    <p class="desc">Brickbreaker meets math. Bricks have HP values — build combos to multiply your damage. Clear the glowing Target Row for massive bonus points. Earn extra lives as you score.</p>
+    <div class="card-tags">
+      <span class="tag">BROWSER</span>
+      <span class="tag">ARCADE</span>
+      <span class="tag">MATH</span>
+    </div>
+    <a href="https://github.com/wcantara" target="_blank" class="card-link">PLAY NOW →</a>
+  </div>
+
+  <div class="game-card blue">
+    <div class="card-corner"></div>
+    <div class="card-status">◌ IN PROGRESS</div>
+    <h2>ZELDA II<br/>AUTO-TRACKER</h2>
+    <p class="desc">A Lua-based auto-tracking tool for Zelda 2 randomizer runs using FCEUX. Tracks palace layouts, item locations, and run state — so you can focus on playing, not note-taking.</p>
+    <div class="card-tags">
+      <span class="tag">LUA</span>
+      <span class="tag">NES</span>
+      <span class="tag">RANDOMIZER</span>
+    </div>
+    <a href="https://github.com/wcantara" target="_blank" class="card-link">VIEW ON GITHUB →</a>
+  </div>
+
+  <div class="game-card wip yellow">
+    <div class="card-status" style="color:var(--neon-yellow);font-family:'Press Start 2P',monospace;font-size:7px;margin-bottom:16px;">◌ COMING SOON</div>
+    <h2 style="font-family:'Press Start 2P',monospace;font-size:12px;color:#666;margin-bottom:12px;line-height:1.6;">MORE GAMES</h2>
+    <p style="font-size:11px;color:#444;line-height:1.8;">More games and gamer tools are in development. Follow on GitHub to stay updated.</p>
+  </div>
+
+</div>
+
+<footer>
+  <p>© 2025 RIBOZYME &nbsp;·&nbsp; <a href="https://github.com/wcantara" target="_blank">GITHUB/WCANTARA</a></p>
+  <p><a href="https://ko-fi.com/ribozyme" target="_blank">☕ SUPPORT ON KO-FI</a></p>
+</footer>
+
+</body>
+</html>

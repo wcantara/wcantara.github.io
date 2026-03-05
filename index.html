@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ribozyme — Projects & Tools</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0c0e14;
+      --bg2: #12151f;
+      --border: rgba(255,255,255,0.07);
+      --text: #e8e9ef;
+      --muted: #6b7280;
+      --accent: #00c9a7;
+      --accent2: #3b82f6;
+      --science: #4dabf7;
+      --games: #ff2d55;
+      --utilities: #f59e0b;
+      --learning: #a3e635;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'DM Mono', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(12,14,20,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 60px;
+    }
+    .nav-brand {
+      font-family: 'DM Serif Display', serif;
+      font-size: 20px; color: var(--accent);
+      text-decoration: none; letter-spacing: 0.02em;
+    }
+    .nav-links { display: flex; gap: 6px; }
+    .nav-links a {
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--muted); text-decoration: none;
+      padding: 6px 14px; border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 100px 40px 60px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(0,201,167,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); border: 1px solid rgba(0,201,167,0.3);
+      padding: 5px 14px; border-radius: 20px; margin-bottom: 32px;
+      animation: fadeUp 0.6s ease both;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(52px, 8vw, 96px); line-height: 1.05;
+      text-align: center; letter-spacing: -0.02em;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero-sub {
+      font-size: 14px; color: var(--muted); line-height: 1.8;
+      text-align: center; max-width: 560px; margin-top: 24px;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .hero-actions {
+      display: flex; gap: 16px; margin-top: 48px; flex-wrap: wrap; justify-content: center;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--accent); color: #0c0e14;
+      padding: 12px 28px; border-radius: 6px;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; font-weight: 500;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-secondary {
+      border: 1px solid var(--border); color: var(--muted);
+      padding: 12px 28px; border-radius: 6px;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none;
+      transition: color 0.2s, border-color 0.2s, transform 0.2s;
+    }
+    .btn-secondary:hover { color: var(--text); border-color: rgba(255,255,255,0.2); transform: translateY(-1px); }
+
+    /* SECTION CARDS */
+    .sections {
+      padding: 80px 40px;
+      max-width: 1100px; margin: 0 auto;
+    }
+    .section-label {
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 40px;
+    }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 32px 28px;
+      text-decoration: none; color: var(--text);
+      position: relative; overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+      animation: fadeUp 0.6s ease both;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card::after {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      opacity: 0; transition: opacity 0.25s;
+    }
+    .card:hover::after { opacity: 1; }
+    .card.science { --c: var(--science); }
+    .card.games   { --c: var(--games); }
+    .card.utils   { --c: var(--utilities); }
+    .card.learn   { --c: var(--learning); }
+    .card:hover { border-color: var(--c); box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--c) inset; }
+    .card::after { background: var(--c); }
+    .card-icon { font-size: 28px; margin-bottom: 20px; }
+    .card-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: 22px; margin-bottom: 10px; color: var(--text);
+    }
+    .card-desc { font-size: 12px; color: var(--muted); line-height: 1.8; }
+    .card-arrow {
+      position: absolute; bottom: 24px; right: 24px;
+      font-size: 18px; color: var(--muted);
+      transition: transform 0.2s, color 0.2s;
+    }
+    .card:hover .card-arrow { transform: translate(3px, -3px); color: var(--c); }
+
+    /* DONATE */
+    .donate-section {
+      max-width: 1100px; margin: 0 auto;
+      padding: 0 40px 100px;
+    }
+    .donate-box {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: 12px; padding: 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 32px;
+    }
+    .donate-box h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 28px; margin-bottom: 10px;
+    }
+    .donate-box p { font-size: 12px; color: var(--muted); line-height: 1.8; max-width: 480px; }
+    .btn-donate {
+      background: transparent;
+      border: 1px solid var(--accent); color: var(--accent);
+      padding: 14px 32px; border-radius: 6px;
+      font-family: 'DM Mono', monospace; font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; white-space: nowrap;
+      transition: background 0.2s, transform 0.2s;
+      flex-shrink: 0;
+    }
+    .btn-donate:hover { background: rgba(0,201,167,0.1); transform: translateY(-1px); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 40px;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 16px;
+    }
+    footer p { font-size: 11px; color: var(--muted); }
+    footer a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      nav { padding: 0 20px; }
+      .nav-links a { padding: 6px 8px; font-size: 9px; }
+      .hero { padding: 100px 24px 60px; }
+      .sections, .donate-section { padding-left: 24px; padding-right: 24px; }
+      .donate-box { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand">Ribozyme</a>
+  <div class="nav-links">
+    <a href="science.html">Science</a>
+    <a href="games.html">Games</a>
+    <a href="utilities.html">Utilities</a>
+    <a href="learning.html">Learning</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-tag">wcantara on GitHub</div>
+  <h1>Code for <em>curiosity</em>,<br/>built to share.</h1>
+  <p class="hero-sub">
+    A collection of tools, games, and experiments spanning RNA biology, retro gaming,
+    data utilities, and learning aids — all freely available.
+  </p>
+  <div class="hero-actions">
+    <a href="https://github.com/wcantara" target="_blank" class="btn-primary">View on GitHub</a>
+    <a href="#sections" class="btn-secondary">Explore Projects</a>
+  </div>
+</section>
+
+<section class="sections" id="sections">
+  <p class="section-label">// Project Categories</p>
+  <div class="cards">
+    <a href="science.html" class="card science" style="animation-delay:0.05s">
+      <div class="card-icon">🔬</div>
+      <div class="card-title">Science &amp; Science Tools</div>
+      <div class="card-desc">RNA analysis tools, bioinformatics utilities, and research-grade software including RiboCAT.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+    <a href="games.html" class="card games" style="animation-delay:0.1s">
+      <div class="card-icon">🕹️</div>
+      <div class="card-title">Games &amp; Gamer Tools</div>
+      <div class="card-desc">Browser games, randomizer trackers, and tools for the classic gaming community.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+    <a href="utilities.html" class="card utils" style="animation-delay:0.15s">
+      <div class="card-icon">⚙️</div>
+      <div class="card-title">General Utilities</div>
+      <div class="card-desc">Everyday tools and scripts built to solve real problems — practical, open, and free.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+    <a href="learning.html" class="card learn" style="animation-delay:0.2s">
+      <div class="card-icon">📚</div>
+      <div class="card-title">Learning &amp; Learning Tools</div>
+      <div class="card-desc">Educational resources, interactive explainers, and tools designed to make learning stick.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+  </div>
+</section>
+
+<section class="donate-section">
+  <div class="donate-box">
+    <div>
+      <h2>Support the work</h2>
+      <p>Everything here is free and open source. If something has been useful to you — a tool saved you time, a game made you smile — a small donation goes a long way toward keeping the projects going.</p>
+    </div>
+    <a href="https://ko-fi.com/ribozyme" target="_blank" class="btn-donate">☕ Buy me a coffee</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Ribozyme &nbsp;·&nbsp; <a href="https://github.com/wcantara" target="_blank">github.com/wcantara</a></p>
+  <p><a href="https://ko-fi.com/ribozyme" target="_blank">Support on Ko-fi</a></p>
+</footer>
+
+</body>
+</html>
