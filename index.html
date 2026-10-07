@@ -19,6 +19,7 @@
       --games: #ff2d55;
       --utilities: #f59e0b;
       --learning: #a3e635;
+      --sports: #e0323c;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
@@ -120,12 +121,12 @@
     }
     .cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(176px, 1fr));
       gap: 20px;
     }
     .card {
       background: var(--bg2); border: 1px solid var(--border);
-      border-radius: 12px; padding: 32px 28px;
+      border-radius: 12px; padding: 30px 22px 48px;
       text-decoration: none; color: var(--text);
       position: relative; overflow: hidden;
       transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
@@ -142,6 +143,7 @@
     .card.games   { --c: var(--games); }
     .card.utils   { --c: var(--utilities); }
     .card.learn   { --c: var(--learning); }
+    .card.sports  { --c: var(--sports); }
     .card:hover { border-color: var(--c); box-shadow: 0 8px 40px rgba(0,0,0,0.3), 0 0 0 1px var(--c) inset; }
     .card::after { background: var(--c); }
     .card-icon { font-size: 28px; margin-bottom: 20px; }
@@ -201,7 +203,10 @@
       to   { opacity: 1; transform: translateY(0); }
     }
     @media (max-width: 600px) {
-      nav { padding: 0 20px; }
+      nav { padding: 10px 20px 6px; height: auto; flex-wrap: wrap; row-gap: 2px; }
+      .nav-links { width: 100%; gap: 0; justify-content: space-between; overflow-x: auto; scrollbar-width: none; }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links a { white-space: nowrap; }
       .nav-links a { padding: 6px 8px; font-size: 9px; }
       .hero { padding: 100px 24px 60px; }
       .sections, .donate-section { padding-left: 24px; padding-right: 24px; }
@@ -218,6 +223,7 @@
     <a href="games.html">Games</a>
     <a href="utilities.html">Utilities</a>
     <a href="learning.html">Learning</a>
+    <a href="sports.html">Sports</a>
   </div>
 </nav>
 
@@ -226,7 +232,7 @@
   <h1>Code for <em>curiosity</em>,<br/>built to share.</h1>
   <p class="hero-sub">
     A collection of tools, games, and experiments spanning RNA biology, retro gaming,
-    data utilities, and learning aids — all freely available.
+    data utilities, learning aids, and sports analytics — all freely available.
   </p>
   <div class="hero-actions">
     <a href="https://github.com/wcantara" target="_blank" class="btn-primary">View on GitHub</a>
@@ -259,6 +265,12 @@
       <div class="card-icon">📚</div>
       <div class="card-title">Learning &amp; Learning Tools</div>
       <div class="card-desc">Educational resources, interactive explainers, and tools designed to make learning stick.</div>
+      <div class="card-arrow">↗</div>
+    </a>
+    <a href="sports.html" class="card sports" style="animation-delay:0.25s">
+      <div class="card-icon">🏈</div>
+      <div class="card-title">Sports &amp; Analytics</div>
+      <div class="card-desc">Interactive dashboards and advanced stats, starting with Ohio State football analytics.</div>
       <div class="card-arrow">↗</div>
     </a>
   </div>

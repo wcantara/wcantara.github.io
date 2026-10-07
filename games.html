@@ -225,7 +225,11 @@
     footer a { color: var(--neon-green); text-decoration: none; text-shadow: 0 0 8px var(--neon-green); }
 
     @media (max-width: 600px) {
-      nav { padding: 0 16px; }
+      nav { padding: 0 16px; gap: 12px; }
+      .nav-brand { flex-shrink: 0; }
+      .nav-links { gap: 0; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+      .nav-links::-webkit-scrollbar { display: none; }
+      .nav-links a { white-space: nowrap; }
       .nav-links a { font-size: 6px; padding: 6px 8px; }
       .hero { padding: 90px 24px 40px; }
       .cards-grid { padding: 0 24px 80px; }
@@ -242,6 +246,7 @@
     <a href="games.html" class="active">GAMES</a>
     <a href="utilities.html">UTILS</a>
     <a href="learning.html">LEARN</a>
+    <a href="sports.html">SPORTS</a>
   </div>
 </nav>
 
